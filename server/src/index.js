@@ -14,12 +14,15 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:5173', // Vite's default port
+// CORS configuration
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://portfolio-tracker-three-beta.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
-}));
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -36,7 +39,7 @@ mongoose.connect(config.mongodb_uri)
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('MongoDB connection error:', error));
 
-const PORT = process.env.PORT || 3000;
+const PORT = config.port || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
