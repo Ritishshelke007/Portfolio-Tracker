@@ -76,7 +76,7 @@ const AddEditStock = () => {
   };
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 min-h-screen">
       <h1 className={`text-2xl font-semibold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
         Add Stock
       </h1>
