@@ -86,7 +86,7 @@ const StockCard = ({ stock, handleDelete, handleEdit }) => {
               }`}
             >
               {isProfit ? '+' : ''}&#8377;{profitLoss.toFixed(2)}
-              <span className='px-1'>{`(${isProfit ? '+' : '-'}${profitLossPercentage.toFixed(2)}%)`}</span>
+              <span className='px-1'>{`(${isProfit ? '+' : ''}${profitLossPercentage.toFixed(2)}%)`}</span>
             </p>
           </div>
         </div>
