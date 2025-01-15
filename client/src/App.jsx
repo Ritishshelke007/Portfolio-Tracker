@@ -28,6 +28,22 @@ function AppContent() {
   };
 
   useEffect(() => {
+    const checkBackendHealth = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}`);
+        if (response.data.status === 'ok') {
+          console.log('Backend is healthy');
+        }
+      } catch (error) {
+        console.log('Backend is starting up, retrying in 5 seconds...');
+        setTimeout(checkBackendHealth, 5000);
+      }
+    };
+
+    checkBackendHealth();
+  }, []);
+
+  useEffect(() => {
     fetchStocks();
   }, []);
 

@@ -1,12 +1,10 @@
 import express from 'express';
-import cors from 'cors';
-import morgan from 'morgan';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
+import cors from 'cors';
+import dotenv from 'dotenv';
 import stockRoutes from './routes/stockRoutes.js';
-import portfolioRoutes from './routes/portfolioRoutes.js';
 import marketRoutes from './routes/marketRoutes.js';
+import portfolioRoutes from './routes/portfolioRoutes.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 import config from './config/config.js';
 
@@ -24,12 +22,20 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(morgan('dev'));
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok',
+    message: 'Portfolio Tracker API is running',
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Routes
 app.use('/api/stocks', stockRoutes);
-app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/market', marketRoutes);
+app.use('/api/portfolio', portfolioRoutes);
 
 // Error Handler
 app.use(errorHandler);
