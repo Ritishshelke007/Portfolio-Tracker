@@ -235,7 +235,7 @@ const Dashboard = ({ stocks }) => {
           }
 
           const isPositive = (data.changePercent || 0) >= 0;
-          const formattedValue = data.value.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+          const formattedPrice = data.price.toLocaleString('en-IN', { maximumFractionDigits: 2 });
           const formattedChange = (data.changePercent || 0).toFixed(2);
 
           return (
@@ -245,15 +245,17 @@ const Dashboard = ({ stocks }) => {
               </div>
               <div className="flex items-baseline space-x-2">
                 <span className={`text-lg font-semibold font-numeric ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  {formattedValue}
+                  {formattedPrice}
                 </span>
                 <div className="flex gap-1">
                   <span className={`text-sm font-medium ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                  ₹ {isPositive ? '+' : ''}{data.change} 
+                    {isPositive ? '+' : ''}{formattedChange}%
                   </span>
-                  <span className={`text-sm font-medium ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                    ({isPositive ? '+' : ''}{formattedChange}%)
-                  </span>
+                  {isPositive ? (
+                    <ArrowUpIcon className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <ArrowDownIcon className="w-4 h-4 text-red-500" />
+                  )}
                 </div>
               </div>
             </div>
