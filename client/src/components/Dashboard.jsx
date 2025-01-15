@@ -110,7 +110,7 @@ const Dashboard = ({ stocks }) => {
           MARKET_INDICES.map(async index => {
             console.log(`Fetching data for ${index.symbol}...`);
             try {
-              const response = await axios.get(`http://localhost:3000/api/market/quote/${encodeURIComponent(index.symbol)}`);
+              const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/market/quote/${encodeURIComponent(index.symbol)}`);
               console.log(`Response for ${index.symbol}:`, response.data);
               if (!response.data || typeof response.data.price !== 'number') {
                 console.error(`Invalid data format for ${index.symbol}:`, response.data);
@@ -129,19 +129,16 @@ const Dashboard = ({ stocks }) => {
           if (!response) return;
           const data = response.data;
           newMarketData[MARKET_INDICES[index].symbol] = {
-            name: MARKET_INDICES[index].name,
-            value: data.price,
-            change: data.change || 0,
-            changePercent: data.changePercent || 0
+            ...data,
+            name: MARKET_INDICES[index].name
           };
         });
-
         console.log('Market data fetched successfully:', newMarketData);
         setMarketData(newMarketData);
         setError(null);
-      } catch (err) {
-        console.error('Error in fetchMarketData:', err);
-        setError(err.response?.data?.error || err.message || 'Failed to fetch market data');
+      } catch (error) {
+        console.error('Error in fetchMarketData:', error);
+        setError(error.response?.data?.error || error.message || 'Failed to fetch market data');
       }
     };
 

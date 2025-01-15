@@ -56,7 +56,7 @@ const AddEditStock = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/stocks', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/stocks`, {
         ...formData,
         currentPrice: formData.purchasePrice // Initially set current price to purchase price
       });

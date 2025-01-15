@@ -17,7 +17,7 @@ function AppContent() {
   const fetchStocks = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/api/stocks');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/stocks`);
       setStocks(response.data);
     } catch (error) {
       console.error('Error fetching stocks:', error);
@@ -30,6 +30,8 @@ function AppContent() {
   useEffect(() => {
     const checkBackendHealth = async () => {
       try {
+        console.log(import.meta.env.VITE_API_URL);
+        
         const response = await axios.get(`${import.meta.env.VITE_API_URL}`);
         if (response.data.status === 'ok') {
           console.log('Backend is healthy');
@@ -52,7 +54,7 @@ function AppContent() {
       console.log('Updating stock:', updatedStock);
       
       const response = await axios.put(
-        `http://localhost:3000/api/stocks/${updatedStock._id}`,
+        `${import.meta.env.VITE_API_URL}/api/stocks/${updatedStock._id}`,
         {
           quantity: updatedStock.quantity,
           purchasePrice: updatedStock.purchasePrice
@@ -78,7 +80,7 @@ function AppContent() {
 
   const handleStockDelete = async (stockId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/stocks/${stockId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/stocks/${stockId}`);
       setStocks(prevStocks => prevStocks.filter(stock => stock._id !== stockId));
     } catch (error) {
       console.error('Error deleting stock:', error);
